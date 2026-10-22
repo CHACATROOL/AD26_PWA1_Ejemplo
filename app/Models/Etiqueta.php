@@ -9,4 +9,10 @@ class Etiqueta extends Model
 {
     /** @use HasFactory<\Database\Factories\EtiquetaFactory> */
     use HasFactory;
+
+    public function recetas()
+    {
+        // Relacion de muchos a muchos con el modelo Reseta 
+        return $this->belongsToMany(Receta::class);
+    }
 }

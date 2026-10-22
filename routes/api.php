@@ -10,8 +10,8 @@ use App\Http\Controllers\Api\EtiquetaController;
 Route::get('categorias',[CategoriaController::class,'index']);
 Route::get('categorias/{categoria}',[CategoriaController::class,'show']);
 
-Route::get('resetas',[RecetaController::class,'index']);
-Route::get('resetas/{receta}',[RecetaController::class,'show']);
+Route::get('recetas',[RecetaController::class,'index']);
+Route::get('recetas/{receta}',[RecetaController::class,'show']);
 
 Route::get('etiquetas',[EtiquetaController::class,'index']);
 Route::get('etiquetas/{etiqueta}',[EtiquetaController::class,'show']);

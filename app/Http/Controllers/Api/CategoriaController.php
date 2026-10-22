@@ -5,16 +5,19 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Categoria;
+use App\Http\Resources\CategoriaResouce;
+use App\Http\Resources\CategoriaCollection;
 
 class CategoriaController extends Controller
 {
     public function index()
     {
-        return Categoria::all();
+        return new CategoriaCollection(Categoria::all());
 }
 
 public function show(Categoria $categoria)
     {
-        return $categoria;
+        $categoria = $categoria->load('recetas');
+        return new CategoriaResouce($categoria);
     }
 }

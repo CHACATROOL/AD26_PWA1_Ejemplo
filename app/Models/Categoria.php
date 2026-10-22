@@ -9,4 +9,10 @@ class Categoria extends Model
 {
     /** @use HasFactory<\Database\Factories\CategoriaFactory> */
     use HasFactory;
+
+    public function recetas()
+    {
+        // Relacion de uno a muchos con el modelo Reseta 
+        return $this->hasMany(Receta::class);
+    }
 }
