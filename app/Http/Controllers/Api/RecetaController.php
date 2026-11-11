@@ -9,9 +9,13 @@ use App\Http\Resources\RecetaResource;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Requests\StoreRecetasRequest;
 use App\Http\Requests\UpdateRecetasRequest;
+use Illuminate\Foundation\Auth\Access\AuthorizationException;
 
 class RecetaController extends Controller
 {
+    use AuthorizesRequests;
+
+
     public function index()
     {
         return RecetaResource::collection(Receta::with('categoria', 'etiquetas', 'user')->get());
@@ -23,12 +27,14 @@ class RecetaController extends Controller
     }
 
     public function store(StoreRecetasRequest $request){ 
-        $receta = Receta::create($request->all()); 
+        $receta = $request->user()->recetas()->create($request->all());
         $receta->etiquetas()->attach(json_decode($request->etiquetas)); 
         return response()->json(new RecetaResource($receta), Response::HTTP_CREATED); // 201 Created 
     }
 
     public function update(UpdateRecetasRequest $request, Receta $receta){ 
+        $this->authorize('update', $receta);
+
         $receta->update($request->all()); 
         if($etiquetas = json_decode($request->etiquetas)){ 
             $receta->etiquetas()->sync($etiquetas); 
@@ -37,6 +43,7 @@ class RecetaController extends Controller
     }
 
     public function destroy(Receta $receta){ 
+        $this->authorize('delete', $receta);
         $receta->delete();
         return response()->json(null, Response::HTTP_NO_CONTENT); // 204 No Content 
     }

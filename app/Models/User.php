@@ -31,5 +31,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+
+    public function recetas()
+    {
+        // Relacion de uno a muchos con el modelo Receta
+        return $this->hasMany(Receta::class);
+    }
 }
+
 
